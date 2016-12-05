@@ -20,18 +20,20 @@ typedef NS_ENUM(NSInteger, XEL_AlertControllerStyle) {
 };
 
 @interface XEL_AlertAction : NSObject <NSCopying>
-
+typedef void(^actionHandle)(XEL_AlertAction *action);
 + (instancetype)xel_actionWithTitle:(NSString *)title style:(XEL_AlertActionStyle)style handler:(void (^)(XEL_AlertAction *action))handler;
 
 @property (nonatomic, readonly) NSString *title;
-@property (nonatomic, readonly) UIAlertActionStyle style;
+@property (nonatomic, readonly) XEL_AlertActionStyle style;
 @property (nonatomic, getter=isEnabled) BOOL enabled;
+
+@property (nonatomic, copy) actionHandle handle;
 
 @end
 
-@interface XEL_AlertViewController : UIViewController
+@interface XEL_AlertView : UIView
 
-+ (instancetype)xel_alertControllerWithTitle:(NSString *)title message:(NSString *)message preferredStyle:(XEL_AlertActionStyle)preferredStyle;
++ (instancetype)xel_alertControllerWithTitle:(NSString *)title message:(NSString *)message preferredStyle:(XEL_AlertControllerStyle)preferredStyle;
 
 - (void)xel_addAction:(XEL_AlertAction *)action;
 @property (nonatomic, readonly) NSArray <XEL_AlertAction *> *actions;
@@ -44,6 +46,8 @@ typedef NS_ENUM(NSInteger, XEL_AlertControllerStyle) {
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *message;
 
-@property (nonatomic, readonly) XEL_AlertActionStyle preferredStyle;
+@property (nonatomic, readonly) XEL_AlertControllerStyle preferredStyle;
+
+- (void)showInView:(UIView *)view;
 
 @end

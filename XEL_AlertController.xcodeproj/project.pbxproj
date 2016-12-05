@@ -13,7 +13,7 @@
 		B5375E9B1DEFC375004608BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5375E991DEFC375004608BC /* Main.storyboard */; };
 		B5375E9D1DEFC375004608BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5375E9C1DEFC375004608BC /* Assets.xcassets */; };
 		B5375EA01DEFC375004608BC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5375E9E1DEFC375004608BC /* LaunchScreen.storyboard */; };
-		B5375EAA1DEFC4E3004608BC /* XEL_AlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5375EA91DEFC4E3004608BC /* XEL_AlertViewController.m */; };
+		B5375EAA1DEFC4E3004608BC /* XEL_AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5375EA91DEFC4E3004608BC /* XEL_AlertView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,8 +27,8 @@
 		B5375E9C1DEFC375004608BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5375E9F1DEFC375004608BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B5375EA11DEFC375004608BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B5375EA81DEFC4E3004608BC /* XEL_AlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XEL_AlertViewController.h; sourceTree = "<group>"; };
-		B5375EA91DEFC4E3004608BC /* XEL_AlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XEL_AlertViewController.m; sourceTree = "<group>"; };
+		B5375EA81DEFC4E3004608BC /* XEL_AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XEL_AlertView.h; sourceTree = "<group>"; };
+		B5375EA91DEFC4E3004608BC /* XEL_AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XEL_AlertView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,8 +86,8 @@
 		B5375EA71DEFC3ED004608BC /* XEL_AlertController */ = {
 			isa = PBXGroup;
 			children = (
-				B5375EA81DEFC4E3004608BC /* XEL_AlertViewController.h */,
-				B5375EA91DEFC4E3004608BC /* XEL_AlertViewController.m */,
+				B5375EA81DEFC4E3004608BC /* XEL_AlertView.h */,
+				B5375EA91DEFC4E3004608BC /* XEL_AlertView.m */,
 			);
 			name = XEL_AlertController;
 			sourceTree = "<group>";
@@ -165,7 +165,7 @@
 				B5375E981DEFC375004608BC /* ViewController.m in Sources */,
 				B5375E951DEFC375004608BC /* AppDelegate.m in Sources */,
 				B5375E921DEFC375004608BC /* main.m in Sources */,
-				B5375EAA1DEFC4E3004608BC /* XEL_AlertViewController.m in Sources */,
+				B5375EAA1DEFC4E3004608BC /* XEL_AlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +312,7 @@
 				B5375EA61DEFC375004608BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
