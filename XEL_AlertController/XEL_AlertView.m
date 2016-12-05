@@ -141,6 +141,7 @@ static CGFloat kMaxRatio = 0.9;
     [view addSubview:self];
     [self sortActions];
     
+    
     [UIView animateWithDuration:0.15 animations:^{
         
         self.alpha = 0.5;
