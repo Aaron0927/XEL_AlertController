@@ -135,9 +135,6 @@ static CGFloat kMaxRatio = 0.9;
     
 }
 
-- (void)layoutSubviews {
-    NSLog(@"layoutSubViews");
-}
 
 - (void)showInView:(UIView *)view {
     
