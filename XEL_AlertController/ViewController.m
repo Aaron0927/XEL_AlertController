@@ -37,7 +37,7 @@
 
 
 - (void)alert {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突." message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突." message:@"又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他vie" preferredStyle:UIAlertControllerStyleActionSheet];
     
 //    [alert addAction:[UIAlertAction actionWithTitle:@"Destructive" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
 //        
@@ -56,13 +56,16 @@
 }
 
 - (void)alert1 {
-    XEL_AlertView *alert = [XEL_AlertView xel_alertControllerWithTitle:@"titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突." message:@"message" preferredStyle:XEL_AlertControllerStyleActionSheet];
+    XEL_AlertView *alert = [XEL_AlertView xel_alertControllerWithTitle:nil message:nil preferredStyle:XEL_AlertControllerStyleActionSheet];
     
-    [alert xel_addAction:[XEL_AlertAction xel_actionWithTitle:@"cancel" style:XEL_AlertActionStyleCancel handler:^(XEL_AlertAction *action) {
+    [alert xel_addAction:[XEL_AlertAction xel_actionWithTitle:@"取消" style:XEL_AlertActionStyleCancel handler:^(XEL_AlertAction *action) {
         
     }]];
     
-    [alert xel_addAction:[XEL_AlertAction xel_actionWithTitle:@"sure" style:XEL_AlertActionStyleDefault handler:^(XEL_AlertAction *action) {
+    [alert xel_addAction:[XEL_AlertAction xel_actionWithTitle:@"从相册获取" style:XEL_AlertActionStyleDefault handler:^(XEL_AlertAction *action) {
+        NSLog(@"dosomething");
+    }]];
+    [alert xel_addAction:[XEL_AlertAction xel_actionWithTitle:@"拍照" style:XEL_AlertActionStyleDestructive handler:^(XEL_AlertAction *action) {
         NSLog(@"dosomething");
     }]];
     

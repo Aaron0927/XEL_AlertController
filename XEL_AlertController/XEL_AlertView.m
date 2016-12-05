@@ -8,7 +8,8 @@
 
 #import "XEL_AlertView.h"
 
-
+#define RGBA(r, g, b, a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+#define RGB(r, g, b) RGBA(r, g, b, 1.0)
 
 @interface XEL_AlertView () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
@@ -29,11 +30,11 @@
 @end
 
 //cell 的默认高度
-static CGFloat kCellHeight = 44;
+static CGFloat kCellHeight = 50;
 //取消与其他按钮的距离
 static CGFloat kCancelPadding = 10;
 //其他按钮的距离
-static CGFloat kDefaultPadding = 2;
+static CGFloat kDefaultPadding = 1;
 //titleLabel的边距
 static CGFloat kTitleLabelPddding = 10;
 
@@ -193,6 +194,8 @@ static CGFloat kMaxRatio = 0.9;
     XEL_AlertAction *action = self.actions[indexPath.section];
     cell.textLabel.text = action.title;
     [cell.textLabel setTextAlignment:NSTextAlignmentCenter];
+    [cell.textLabel setFont:[UIFont systemFontOfSize:18]];
+    [cell.textLabel setTintColor:[UIColor blackColor]];
     return cell;
 }
 
@@ -235,14 +238,16 @@ static CGFloat kMaxRatio = 0.9;
         UIFont *font = [UIFont systemFontOfSize:17];
         [titleLabel setTextAlignment:NSTextAlignmentCenter];
         [titleLabel setNumberOfLines:0];
+        //[titleLabel setTextColor:[UIColor lightGrayColor]];
         [titleLabel setFont:font];
         CGFloat width = self.frame.size.width - 2 * kTitleLabelPddding;
         CGSize size = [self stringSizeWithString:title width:width font:font];
         
         titleLabel.frame = CGRectMake(kTitleLabelPddding, 0, width, size.height + 2 * kTitleLabelPddding);
-        self.headerViewHeight = titleLabel.frame.size.height;
         
         self.titleLabel = titleLabel;
+        
+        self.headerViewHeight += titleLabel.frame.size.height;
     }
     
 }
@@ -261,17 +266,16 @@ static CGFloat kMaxRatio = 0.9;
         CGFloat width = self.frame.size.width - 2 * kTitleLabelPddding;
         CGSize size = [self stringSizeWithString:message width:width font:font];
         
-        self.headerViewHeight += (size.height + 2 * kTitleLabelPddding);
-        
         CGFloat y = 0;
         if (self.title) {
             y = CGRectGetMaxY(self.titleLabel.frame);
         }
         
-        messageLabel.frame = CGRectMake(kTitleLabelPddding, y, width, size.height + 2 * kTitleLabelPddding);
+        messageLabel.frame = CGRectMake(kTitleLabelPddding, y + 1, width, size.height + 2 * kTitleLabelPddding);
+        
         self.messageLabel = messageLabel;
-        messageLabel.layer.borderColor = [UIColor redColor].CGColor;
-        messageLabel.layer.borderWidth = 1.f;
+
+        self.headerViewHeight += messageLabel.frame.size.height;
     }
     
 }
@@ -280,9 +284,9 @@ static CGFloat kMaxRatio = 0.9;
 - (UIView *)alertView {
     if (!_alertView) {
         
-        _alertView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height, self.frame.size.width, MIN([self headerViewHeight] + [self tableViewHeight], self.frame.size.height * kMaxRatio))];
+        _alertView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height, self.frame.size.width, MIN([self headerViewHeight] + [self tableViewHeight] + 1, self.frame.size.height * kMaxRatio))];
         
-        _alertView.backgroundColor = [UIColor lightGrayColor];
+        _alertView.backgroundColor = RGB(220, 220, 220);
         
     }
     return _alertView;
@@ -292,18 +296,26 @@ static CGFloat kMaxRatio = 0.9;
     if (!_headerView) {
         
         CGFloat height = self.alertView.frame.size.height - [self tableViewHeight];
+        _headerView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.alertView.frame.size.width, MIN([self headerViewHeight], height))];
         if (height < [self headerViewHeight]) {
             _headerView.scrollEnabled = YES;
             
         } else {
             _headerView.scrollEnabled = NO;
         }
-        _headerView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.alertView.frame.size.width, MIN([self headerViewHeight], height))];
         [_headerView addSubview:self.titleLabel];
         [_headerView addSubview:self.messageLabel];
         _headerView.contentSize = CGSizeMake(0, [self headerViewHeight]);
-        _headerView.layer.borderColor = [UIColor greenColor].CGColor;
-        _headerView.layer.borderWidth = 1.f;
+        _headerView.backgroundColor = [UIColor whiteColor];
+        //添加分割线
+        UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(0, MIN([self headerViewHeight], height) - 1, self.frame.size.width, 1)];
+        separatorView.backgroundColor = RGB(220, 220, 220);
+        [_headerView addSubview:separatorView];
+        if (self.messageLabel) {
+            UIView *titleSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(0, _titleLabel.frame.size.height, self.frame.size.width, 1)];
+            titleSeparatorView.backgroundColor = RGB(220, 220, 220);
+            [_headerView addSubview:titleSeparatorView];
+        }
     }
     return _headerView;
 }
@@ -319,7 +331,7 @@ static CGFloat kMaxRatio = 0.9;
         } else {
             _tableView.scrollEnabled = NO;
         }
-        _tableView.backgroundColor = [UIColor darkGrayColor];
+        _tableView.backgroundColor = RGB(220, 220, 220);
         _tableView.separatorInset = UIEdgeInsetsZero;
         _tableView.dataSource = self;
         _tableView.delegate   = self;

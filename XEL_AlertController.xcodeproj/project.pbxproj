@@ -14,6 +14,7 @@
 		B5375E9D1DEFC375004608BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5375E9C1DEFC375004608BC /* Assets.xcassets */; };
 		B5375EA01DEFC375004608BC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5375E9E1DEFC375004608BC /* LaunchScreen.storyboard */; };
 		B5375EAA1DEFC4E3004608BC /* XEL_AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5375EA91DEFC4E3004608BC /* XEL_AlertView.m */; };
+		B5573B1C1DF5685500452B5B /* IMG_0158.PNG in Resources */ = {isa = PBXBuildFile; fileRef = B5573B1B1DF5685500452B5B /* IMG_0158.PNG */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		B5375EA11DEFC375004608BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5375EA81DEFC4E3004608BC /* XEL_AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XEL_AlertView.h; sourceTree = "<group>"; };
 		B5375EA91DEFC4E3004608BC /* XEL_AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XEL_AlertView.m; sourceTree = "<group>"; };
+		B5573B1B1DF5685500452B5B /* IMG_0158.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMG_0158.PNG; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 		B5375E8F1DEFC375004608BC /* XEL_AlertController */ = {
 			isa = PBXGroup;
 			children = (
+				B5573B1A1DF5679200452B5B /* image */,
 				B5375EA71DEFC3ED004608BC /* XEL_AlertController */,
 				B5375E931DEFC375004608BC /* AppDelegate.h */,
 				B5375E941DEFC375004608BC /* AppDelegate.m */,
@@ -90,6 +93,14 @@
 				B5375EA91DEFC4E3004608BC /* XEL_AlertView.m */,
 			);
 			name = XEL_AlertController;
+			sourceTree = "<group>";
+		};
+		B5573B1A1DF5679200452B5B /* image */ = {
+			isa = PBXGroup;
+			children = (
+				B5573B1B1DF5685500452B5B /* IMG_0158.PNG */,
+			);
+			path = image;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,6 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5375EA01DEFC375004608BC /* LaunchScreen.storyboard in Resources */,
+				B5573B1C1DF5685500452B5B /* IMG_0158.PNG in Resources */,
 				B5375E9D1DEFC375004608BC /* Assets.xcassets in Resources */,
 				B5375E9B1DEFC375004608BC /* Main.storyboard in Resources */,
 			);
