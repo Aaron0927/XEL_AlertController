@@ -11,17 +11,90 @@
 #define RGBA(r, g, b, a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 #define RGB(r, g, b) RGBA(r, g, b, 1.0)
 
-@interface XEL_AlertView () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
+@interface XEL_CollectionViewCell : UICollectionViewCell
+
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIView *verticalView;
+@property (nonatomic, strong) UIView *bottomView;
+
+@property (nonatomic, assign) NSInteger count;
+@property (nonatomic, strong) NSString *title;
+
+@property (nonatomic, assign) CGRect frame;
+
+@end
+
+@implementation XEL_CollectionViewCell
+
+- (instancetype)initWithFrame:(CGRect)frame  {
+    self = [super initWithFrame:frame];
+    if (self) {
+        
+        
+    }
+    return self;
+}
+
+- (void)setTitle:(NSString *)title {
+    _title = title;
+    
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.contentView.frame.size.height)];
+        [self.contentView addSubview:_titleLabel];
+        
+    }
+    _titleLabel.frame = CGRectMake(0, 0, self.frame.size.width, self.contentView.frame.size.height);
+    [_titleLabel setText:title];
+    [_titleLabel setTextAlignment:NSTextAlignmentCenter];
+}
+
+- (void)setCount:(NSInteger)count {
+    _count = count;
+    if (count == 2) {
+        //添加分割线
+        if (!_verticalView) {
+            _verticalView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width, 0, 1, self.contentView.frame.size.height)];
+        }
+        
+        _verticalView.tag = 200;
+        _verticalView.frame = CGRectMake(self.frame.size.width, 0, 1,  self.contentView.frame.size.height);
+        _verticalView.backgroundColor = RGB(220, 220, 220);
+        [self.contentView addSubview:_verticalView];
+    } else {
+        //添加下划线
+        if (!_bottomView) {
+            _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height, self.contentView.frame.size.width, 1)];
+        }
+        _bottomView.frame = CGRectMake(0, self.frame.size.height, self.contentView.frame.size.width, 1);
+        _bottomView.tag = 300;
+        _bottomView.backgroundColor = RGB(220, 220, 220);
+        [self.contentView addSubview:_bottomView];
+    }
+}
+
+- (void)setFrame:(CGRect)frame {
+    _frame = frame;
+    
+}
+
+@end
+
+@interface XEL_AlertView () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, readwrite) NSArray <XEL_AlertAction *> *actions;
 @property (nonatomic, strong) XEL_AlertAction *cancelAction;
 
+@property (nonatomic, readwrite) XEL_AlertControllerStyle preferredStyle;
 
 //action sheet
 @property (nonatomic, strong) UIView *alertView;
 @property (nonatomic, strong) UIScrollView *headerView;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UICollectionView *collectionView;
 
+@property (nonatomic, strong) UILabel *textLabel;
+@property (nonatomic, strong) UIView *verticalView;
+@property (nonatomic, strong) UIView *bottomView;
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
@@ -39,7 +112,9 @@ static CGFloat kDefaultPadding = 1;
 static CGFloat kTitleLabelPddding = 10;
 
 //alert view 的最大高度比例
-static CGFloat kMaxRatio = 0.9;
+static CGFloat kMaxHeightRatio = 0.9;
+//alert view 宽度比例
+static CGFloat kMaxWidthRatio = 0.7;
 //当
 
 
@@ -78,6 +153,7 @@ static CGFloat kMaxRatio = 0.9;
         hideTap.delegate = self;
         [self addGestureRecognizer:hideTap];
         
+        self.preferredStyle = preferredStyle;
         self.title = title;
         self.message = message;
         
@@ -90,20 +166,35 @@ static CGFloat kMaxRatio = 0.9;
 - (void)changeFrame {
     
     CGRect frame = [UIScreen mainScreen].bounds;
-    NSLog(@"%@", NSStringFromCGRect(frame));
     self.frame = frame;
     //修改子视图frame
     CGRect alertViewFrame = self.alertView.frame;
-    alertViewFrame.size.width = frame.size.width;
-    alertViewFrame.size.height = MIN([self headerViewHeight] + [self tableViewHeight], self.frame.size.height * kMaxRatio);
-    alertViewFrame.origin.y = frame.size.height - alertViewFrame.size.height;
+    if (self.preferredStyle == XEL_AlertControllerStyleActionSheet) {
+        alertViewFrame.size.width = frame.size.width;
+        alertViewFrame.size.height = MIN([self headerViewHeight] + [self tableViewHeight], self.frame.size.height * kMaxHeightRatio);
+        alertViewFrame.origin.y = frame.size.height - alertViewFrame.size.height;
+    } else {
+        alertViewFrame.size.width = MIN(frame.size.width * kMaxWidthRatio, alertViewFrame.size.width);
+        alertViewFrame.size.height = MIN([self headerViewHeight] + [self collectionViewHeight], self.frame.size.height * kMaxHeightRatio);
+    }
+    
     self.alertView.frame = alertViewFrame;
+    if (self.preferredStyle == XEL_AlertControllerStyleAlert) {
+        self.alertView.center = self.center;
+    }
     
     CGRect headerViewFrame = self.headerView.frame;
-    headerViewFrame.size.width = frame.size.width;
-    CGFloat height = self.alertView.frame.size.height - [self tableViewHeight];
-    headerViewFrame.size.height = MIN([self headerViewHeight], height);
+    if (self.preferredStyle == XEL_AlertControllerStyleActionSheet) {
+        headerViewFrame.size.width = frame.size.width;
+        CGFloat height = self.alertView.frame.size.height - [self tableViewHeight];
+        headerViewFrame.size.height = MIN([self headerViewHeight], height);
+    } else if (self.preferredStyle == XEL_AlertControllerStyleAlert) {
+        headerViewFrame.size.width = self.alertView.frame.size.width;
+        CGFloat height = self.alertView.frame.size.height - [self collectionViewHeight];
+        headerViewFrame.size.height = MIN([self headerViewHeight], height);
+    }
     self.headerView.frame = headerViewFrame;
+    
     if (self.titleLabel) {
         CGRect titleLabelFrame = self.titleLabel.frame;
         CGFloat width = self.headerView.frame.size.width - 2 * kTitleLabelPddding;
@@ -127,12 +218,22 @@ static CGFloat kMaxRatio = 0.9;
     }
     self.headerView.contentSize = CGSizeMake(0, CGRectGetMaxY(self.messageLabel.frame));
     
-    CGRect tableViewFrame = self.tableView.frame;
-    tableViewFrame.size.width = frame.size.width;
-    CGFloat height1 = self.alertView.frame.size.height - self.headerView.frame.size.height;
-    tableViewFrame.size.height = MIN([self tableViewHeight], height1);
-    tableViewFrame.origin.y = CGRectGetHeight(self.headerView.frame);
-    self.tableView.frame = tableViewFrame;
+    if (self.preferredStyle == XEL_AlertControllerStyleActionSheet) {
+        CGRect tableViewFrame = self.tableView.frame;
+        tableViewFrame.size.width = frame.size.width;
+        CGFloat height1 = self.alertView.frame.size.height - self.headerView.frame.size.height;
+        tableViewFrame.size.height = MIN([self tableViewHeight], height1);
+        tableViewFrame.origin.y = CGRectGetHeight(self.headerView.frame);
+        self.tableView.frame = tableViewFrame;
+    } else if (self.preferredStyle == XEL_AlertControllerStyleAlert) {
+        CGRect collectionViewFrame = self.collectionView.frame;
+        collectionViewFrame.size.width = self.alertView.frame.size.width;
+        CGFloat height = self.alertView.frame.size.height - self.headerView.frame.size.height;
+        collectionViewFrame.size.height = height;
+        collectionViewFrame.origin.y = CGRectGetHeight(self.headerView.frame);
+        self.collectionView.frame = collectionViewFrame;
+        [self.collectionView reloadData];
+    }
     
 }
 
@@ -142,41 +243,82 @@ static CGFloat kMaxRatio = 0.9;
     [view addSubview:self];
     [self sortActions];
     
+    if (self.preferredStyle == XEL_AlertControllerStyleActionSheet) {
+        
+        [UIView animateWithDuration:0.15 animations:^{
+            
+            self.alpha = 0.5;
+            CGRect frame = self.alertView.frame;
+            frame.origin.y -= frame.size.height;
+            
+            self.alertView.frame = frame;
+            
+            
+        } completion:^(BOOL finished) {
+            
+            [self addSubview:self.alertView];
+            
+            [self.alertView addSubview:self.headerView];
+            [self.alertView addSubview:self.tableView];
+            
+        }];
+    } else if (self.preferredStyle == XEL_AlertControllerStyleAlert) {
+        
+        if (self.titleLabel) {
+            CGRect frame = self.titleLabel.frame;
+            frame.size.width = self.alertView.frame.size.width - 2 * kTitleLabelPddding;
+            self.titleLabel.frame = frame;
+            
+        }
+        if (self.messageLabel) {
+            CGRect frame = self.messageLabel.frame;
+            frame.size.width = self.alertView.frame.size.width - 2 * kTitleLabelPddding;
+            self.messageLabel.frame = frame;
+        }
+        
+        [UIView animateWithDuration:0.15 animations:^{
+            
+            self.alpha = 0.5;
+            self.alertView.center = self.center;
+        } completion:^(BOOL finished) {
+            
+            [self addSubview:self.alertView];
+            [self.alertView addSubview:self.headerView];
+            [self.alertView addSubview:self.collectionView];
+            NSLog(@"frame:%@", NSStringFromCGRect(self.collectionView.frame));
+        }];
+    }
     
-    [UIView animateWithDuration:0.15 animations:^{
-        
-        self.alpha = 0.5;
-        CGRect frame = self.alertView.frame;
-        frame.origin.y -= frame.size.height;
-        
-        self.alertView.frame = frame;
-        
-        
-    } completion:^(BOOL finished) {
-        
-        [self addSubview:self.alertView];
-        
-        [self.alertView addSubview:self.headerView];
-        [self.alertView addSubview:self.tableView];
-        
-    }];
 }
 
 - (void)hideView {
     
-    [UIView animateWithDuration:0.15 animations:^{
+    if (self.preferredStyle == XEL_AlertControllerStyleActionSheet) {
+        [UIView animateWithDuration:0.15 animations:^{
+            
+            self.alpha = 0;
+            CGRect frame = self.alertView.frame;
+            frame.origin.y += [self headerViewHeight] + [self tableViewHeight];
+            self.alertView.frame = frame;
+            
+        } completion:^(BOOL finished) {
+            [self.headerView removeFromSuperview];
+            [self.tableView removeFromSuperview];
+            [self.alertView removeFromSuperview];
+            [self removeFromSuperview];
+        }];
+    } else if (self.preferredStyle == XEL_AlertControllerStyleAlert) {
         
-        self.alpha = 0;
-        CGRect frame = self.alertView.frame;
-        frame.origin.y += [self headerViewHeight] + [self tableViewHeight];
-        self.alertView.frame = frame;
-        
-    } completion:^(BOOL finished) {
-        [self.headerView removeFromSuperview];
-        [self.tableView removeFromSuperview];
-        [self.alertView removeFromSuperview];
-        [self removeFromSuperview];
-    }];
+        [UIView animateWithDuration:0.15 animations:^{
+            
+            self.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self.headerView removeFromSuperview];
+            [self.alertView removeFromSuperview];
+            [self removeFromSuperview];
+        }];
+    }
+    
 }
 
 
@@ -226,6 +368,31 @@ static CGFloat kMaxRatio = 0.9;
     [self hideView];
 }
 
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.actions.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    XEL_CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    XEL_AlertAction *action = self.actions[indexPath.row];
+    cell.frame = CGRectMake(0, 0, collectionView.frame.size.width / 2, collectionView.frame.size.height);
+    cell.title = action.title;
+    cell.count = self.actions.count;
+    
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (self.actions.count == 2) {
+        
+        return CGSizeMake(self.alertView.frame.size.width / 2, kCellHeight);
+    }
+    return CGSizeMake(self.alertView.frame.size.width, kCellHeight);
+}
+
 
 #pragma mark - setter getter
 
@@ -238,7 +405,6 @@ static CGFloat kMaxRatio = 0.9;
         UIFont *font = [UIFont systemFontOfSize:17];
         [titleLabel setTextAlignment:NSTextAlignmentCenter];
         [titleLabel setNumberOfLines:0];
-        //[titleLabel setTextColor:[UIColor lightGrayColor]];
         [titleLabel setFont:font];
         CGFloat width = self.frame.size.width - 2 * kTitleLabelPddding;
         CGSize size = [self stringSizeWithString:title width:width font:font];
@@ -284,8 +450,13 @@ static CGFloat kMaxRatio = 0.9;
 - (UIView *)alertView {
     if (!_alertView) {
         
-        _alertView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height, self.frame.size.width, MIN([self headerViewHeight] + [self tableViewHeight] + 1, self.frame.size.height * kMaxRatio))];
-        
+        if (self.preferredStyle == XEL_AlertControllerStyleActionSheet) {
+            _alertView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height, self.frame.size.width, MIN([self headerViewHeight] + [self tableViewHeight] + 1, self.frame.size.height * kMaxHeightRatio))];
+            
+        } else if (self.preferredStyle == XEL_AlertControllerStyleAlert) {
+            _alertView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height, self.frame.size.width * kMaxWidthRatio, MIN([self headerViewHeight] + [self collectionViewHeight], self.frame.size.height * kMaxHeightRatio))];
+            
+        }
         _alertView.backgroundColor = RGB(220, 220, 220);
         
     }
@@ -295,7 +466,12 @@ static CGFloat kMaxRatio = 0.9;
 - (UIScrollView *)headerView {
     if (!_headerView) {
         
-        CGFloat height = self.alertView.frame.size.height - [self tableViewHeight];
+        CGFloat height = 0;
+        if (self.preferredStyle == XEL_AlertControllerStyleActionSheet) {
+            height = self.alertView.frame.size.height - [self tableViewHeight];
+        } else if (self.preferredStyle == XEL_AlertControllerStyleAlert) {
+            height = self.alertView.frame.size.height - [self collectionViewHeight];
+        }
         _headerView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.alertView.frame.size.width, MIN([self headerViewHeight], height))];
         if (height < [self headerViewHeight]) {
             _headerView.scrollEnabled = YES;
@@ -342,6 +518,25 @@ static CGFloat kMaxRatio = 0.9;
     return _tableView;
 }
 
+- (UICollectionView *)collectionView {
+    if (!_collectionView) {
+        
+        CGFloat height = self.alertView.frame.size.height - self.headerView.frame.size.height;
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.minimumLineSpacing = 1;
+        layout.minimumInteritemSpacing = 0;
+        //layout.sectionInset = UIEdgeInsetsMake(5, 0, 5, 0);
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.headerView.frame), self.alertView.frame.size.width, height) collectionViewLayout:layout];
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        [_collectionView registerClass:[XEL_CollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
+//        _collectionView.layer.borderColor = [UIColor redColor].CGColor;
+//        _collectionView.layer.borderWidth = 1.f;
+    }
+    return _collectionView;
+}
+
 #pragma mark - view height
 - (CGFloat)tableViewHeight {
     CGFloat height = 0;
@@ -361,6 +556,16 @@ static CGFloat kMaxRatio = 0.9;
     return height;
 }
 
+- (CGFloat)collectionViewHeight {
+    CGFloat height = 0;
+    if (self.actions.count < 3 && self.actions.count > 0) {
+        height = kCellHeight;
+    } else {
+        height = kCellHeight * self.actions.count;
+    }
+    return height;
+}
+
 
 #pragma mark - private --
 
@@ -375,9 +580,24 @@ static CGFloat kMaxRatio = 0.9;
 }
 
 - (void)sortActions {
-    NSMutableArray *tempArray = [NSMutableArray arrayWithArray:self.actions];
-    [tempArray addObject:self.cancelAction];
-    self.actions = [tempArray copy];
+    if (self.cancelAction) {
+        
+        if (self.preferredStyle == XEL_AlertControllerStyleActionSheet) {
+            NSMutableArray *tempArray = [NSMutableArray arrayWithArray:self.actions];
+            [tempArray addObject:self.cancelAction];
+            self.actions = [tempArray copy];
+        } else if (self.preferredStyle == XEL_AlertControllerStyleAlert) {
+            if (self.actions.count > 1) {
+                NSMutableArray *tempArray = [NSMutableArray arrayWithArray:self.actions];
+                [tempArray addObject:self.cancelAction];
+                self.actions = [tempArray copy];
+            } else {
+                NSMutableArray *tempArray = [NSMutableArray arrayWithArray:self.actions];
+                [tempArray insertObject:self.cancelAction atIndex:0];
+                self.actions = [tempArray copy];
+            }
+        }
+    }
 }
 
 - (CGSize)stringSizeWithString:(NSString *)string width:(CGFloat)width font:(UIFont *)font {
@@ -429,3 +649,4 @@ static CGFloat kMaxRatio = 0.9;
 }
 
 @end
+

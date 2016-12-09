@@ -37,30 +37,32 @@
 
 
 - (void)alert {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突." message:@"又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他vie" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他view的点击响应事件的时候,这时候就可能造成冲突." message:@"又有其他view的点击响应事件的时候,这时候就可能造成冲突.当一个view上面既有UITapGestureRecognizer 又有其他vie" preferredStyle:UIAlertControllerStyleAlert];
     
-//    [alert addAction:[UIAlertAction actionWithTitle:@"Destructive" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-//        
-//    }]];
-//    
+    [alert addAction:[UIAlertAction actionWithTitle:@"Destructive" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    
     [alert addAction:[UIAlertAction actionWithTitle:@"sure" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
     }]];
-//    [alert addAction:[UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//        
-//    }]];
-    
+    [alert addAction:[UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"cancel11" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
     
     
     [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)alert1 {
-    XEL_AlertView *alert = [XEL_AlertView xel_alertControllerWithTitle:nil message:nil preferredStyle:XEL_AlertControllerStyleActionSheet];
+    XEL_AlertView *alert = [XEL_AlertView xel_alertControllerWithTitle:@"test" message:nil preferredStyle:XEL_AlertControllerStyleAlert];
     
-    [alert xel_addAction:[XEL_AlertAction xel_actionWithTitle:@"取消" style:XEL_AlertActionStyleCancel handler:^(XEL_AlertAction *action) {
-        
-    }]];
+//    [alert xel_addAction:[XEL_AlertAction xel_actionWithTitle:@"取消" style:XEL_AlertActionStyleCancel handler:^(XEL_AlertAction *action) {
+//        
+//    }]];
     
     [alert xel_addAction:[XEL_AlertAction xel_actionWithTitle:@"从相册获取" style:XEL_AlertActionStyleDefault handler:^(XEL_AlertAction *action) {
         NSLog(@"dosomething");
